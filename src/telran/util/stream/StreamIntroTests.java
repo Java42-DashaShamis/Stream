@@ -64,6 +64,12 @@ class StreamIntroTests {
 	
 	private Integer[] getLotoNumbers(int nNumbers, int min, int max) {
 		Random gen = new Random();
+		/* V.R. 
+		 *  1. Due to your filter you will get values from 2 (value>min) to 48 (value<max).
+		 *  It is the error
+		 *  2. The method ints is also used with parameters (min, max). It is better
+		 *  to use it instead of filter()
+		 */ 
 		return gen.ints().filter(n -> n>min && n<max).distinct().limit(nNumbers).boxed().toArray(Integer[]::new);
 	}
 	@Test
@@ -75,8 +81,15 @@ class StreamIntroTests {
 	}
 	
 	private boolean isHalfSum(int[]ar) {
-		
+		/* V.R.
+		 * The testing of the array's length prevents unnecessary calculations.
+		 *  It isn't obligatory and your last test proves it. 
+		 */
 		int sum = Arrays.stream(ar).sum();
+		/* V.R.
+		 *  The sum may be even or odd. The algorithm works for any value of sum.
+		 *  So the following check is redundant 
+		 */
 		if(sum%2==0) {
 			int halfSum = sum/2;
 			HashSet<Integer> hash = new HashSet<>();
@@ -96,6 +109,7 @@ class StreamIntroTests {
 		assertTrue(isHalfSum(ar));
 		int ar1[] = {1, 2, 10, 7};
 		assertFalse(isHalfSum(ar1));
+		// V.R. Very good test!
 		int ar2[] = {2};
 		assertFalse(isHalfSum(ar2));
 	}
